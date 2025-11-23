@@ -1,0 +1,41 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env
+
+# IDE configs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Git
+.git
+.gitignore
+
+# Dockerfiles (imagega tushishi shart emas)
+docker-compose.yml
+Dockerfile
+
+# Test files (agar ishlatsangiz, olib tashlaysiz)
+tests/
+
+# Local files not needed in image
+README.md
+LICENSE
+
+# Alembic cache files
+alembic/__pycache__/
+alembic/versions/__pycache__/
+
+# Project root pycache
+app/__pycache__/
+
+# OS files
+*.DS_Store
