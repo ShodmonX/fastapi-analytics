@@ -37,11 +37,11 @@ jobs:
 
       - name: Create test .env
         run: |
-          echo "" > .env.test
-          echo "API_TITLE=FASTAPI ANALYTICS" >> .env.test
-          echo "API_VERSION=0.1.0" >> .env.test
-          echo "DEBUG=1" >> .env.test
-          echo "DATABASE_URL=postgresql+asyncpg://admin:Shodmon123@localhost:5432/analytics" >> .env.test
+          echo "" > .env
+          echo "API_TITLE=FASTAPI ANALYTICS" >> .env
+          echo "API_VERSION=0.1.0" >> .env
+          echo "DEBUG=1" >> .env
+          echo "DATABASE_URL=postgresql+asyncpg://admin:Shodmon123@localhost:5432/analytics" >> .env
 
       - name: Run tests with coverage
         env:
