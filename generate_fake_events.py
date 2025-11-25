@@ -1,4 +1,3 @@
-# generate_fake_events_single.py
 import asyncio
 import random
 import httpx
@@ -6,7 +5,7 @@ import time
 from datetime import datetime
 
 API_URL = "http://localhost:8080/analytics/"
-TOTAL_EVENTS = 100_000
+TOTAL_EVENTS = 10_000
 CONCURRENCY = 50
 TIMEOUT = 1000
 

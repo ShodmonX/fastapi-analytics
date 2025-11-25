@@ -1,0 +1,58 @@
+name: Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: Shodmon123
+          POSTGRES_DB: analytics
+        ports: [5432:5432]
+        options: >-
+          --health-cmd="pg_isready -U admin -d analytics" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run migrations
+        run: |
+          alembic upgrade head
+
+      - name: Create test .env
+        run: |
+          echo "" > .env.test
+          echo "API_TITLE=FASTAPI ANALYTICS" >> .env.test
+          echo "API_VERSION=0.1.0" >> .env.test
+          echo "DEBUG=1" >> .env.test
+          echo "DATABASE_URL=postgresql+asyncpg://admin:Shodmon123@localhost:5432/analytics" >> .env.test
+
+      - name: Run tests with coverage
+        env:
+          DATABASE_URL: postgresql+asyncpg://admin:Shodmon123@localhost:5432/analytics
+        run: |
+          coverage run -m pytest -q
+          coverage report --fail-under=80
+          coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true

@@ -1,0 +1,11 @@
+[tool.coverage.run]
+source = ["app"]
+omit = ["*/migrations/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError"
+]

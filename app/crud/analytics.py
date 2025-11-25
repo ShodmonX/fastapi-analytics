@@ -22,17 +22,6 @@ async def get_activities(db: AsyncSession, skip: int = 0, limit: int = 1000) -> 
     result = await db.execute(stm)
     return result.scalars().all()
 
-async def get_activities_by_user_id(db: AsyncSession, user_id: int, skip: int = 0, limit: int = 1000) -> list[ActivityLog]:
-    stm = select(ActivityLog).where(ActivityLog.user_id == user_id).offset(skip).limit(limit)
-    result = await db.execute(stm)
-    return result.scalars().all()
-
-async def get_dau_today(db: AsyncSession) -> int:
-    result = await db.execute(
-        text("SELECT COUNT(DISTINCT user_id) FROM activity_logs WHERE DATE(created_at) = CURRENT_DATE")
-    )
-    return result.scalar() or 0
-
 async def get_unique_users_last_n_days(db: AsyncSession, days: int) -> int:
     """
     Use make_interval so we can pass integer `days` safely (asyncpg expects correct types).
@@ -102,11 +91,5 @@ async def get_user_last_seen(db: AsyncSession, user_id: int):
 async def get_total_events(db: AsyncSession):
     result = await db.execute(
         select(func.count()).select_from(ActivityLog)
-    )
-    return result.scalar() or 0
-
-async def total_event_user(db: AsyncSession, user_id: int):
-    result = await db.execute(
-        select(func.count()).select_from(ActivityLog).where(ActivityLog.user_id == user_id)
     )
     return result.scalar() or 0
