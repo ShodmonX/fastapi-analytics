@@ -8,7 +8,7 @@ from app.db import Base, get_db
 from app.models import ActivityLog
 
 
-DATABASE_URL = "postgresql+asyncpg://admin:Shodmon123@localhost:5432/test_db"
+DATABASE_URL = "postgresql+asyncpg://admin:Shodmon123@localhost:5432/analytics"
 
 @pytest.fixture(scope='session')
 def event_loop():
